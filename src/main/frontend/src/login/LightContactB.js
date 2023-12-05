@@ -10,11 +10,11 @@ function LightContactB(props) {
           
         </div>
         <div className="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
-          <h2 className="text-gray-900 text-lg mb-1 font-medium title-font">
-            Feedback
+          <h2 className="text-gray-900 text-lg mb-1 font-bold title-font ">
+            주소 검색하기
           </h2>
           <p className="leading-relaxed mb-5 text-gray-600">
-            Post-ironic portland shabby chic echo park, banjo fashion axe
+            가까운 재활용센터를 검색합니다.
           </p>
           <div className="relative mb-4">
             <label
@@ -58,12 +58,8 @@ function LightContactB(props) {
             ></textarea>
           </div>
           <button className={`text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg`}>
-            Button
+            검색하기
           </button>
-          <p className="text-xs text-gray-500 mt-3">
-            Chicharrones blog helvetica normcore iceland tousled brook viral
-            artisan.
-          </p>
         </div>
       </div>
     </section>

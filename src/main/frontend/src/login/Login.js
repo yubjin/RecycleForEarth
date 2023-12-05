@@ -33,7 +33,7 @@ const Login = () => {
       if (jwtToken != null){
         localStorage.setItem('jwt', jwtToken);
         setIsLogin(localStorage.getItem('jwt', jwtToken));
-        navigate("/");
+        navigate("/home");
       }
     })
     .catch((error)=>{

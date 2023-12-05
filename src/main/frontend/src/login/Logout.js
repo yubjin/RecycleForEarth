@@ -1,5 +1,5 @@
 const Logout = () => {
-    let token = localStorage.getItem('token')
+    //let token = localStorage.getItem('token')
 
     localStorage.clear()
     window.location.replace('/')
