@@ -2,11 +2,11 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Join = () => {
 
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
-  const [isLogin, setIsLogin] = useState("");
+  const [Name, setName] = useState("");
   const navigate = useNavigate();
 
   const onEmailHandler = (event) =>{
@@ -15,30 +15,25 @@ const Login = () => {
   const onPasswordHandler = (event) =>{
     setPassword(event.currentTarget.value);
   }
-  const onClickLogin = () =>{
-    axios.post("/login", {
+  const onNameHandler = (e)=>{
+    setName(e.currentTarget.value);
+  }
+  const onClickSubmit = () =>{
+    axios.post("/join", {
+      "name" : Name,
       "username": Email,
       "password": Password,
     },{
       headers: {
-        'Content-Type':'application/json;charset=UTF-8',
-        'Accept' : 'application/json',
-        'Accept-Control-Allow-Origin' : '*',
+        'Content-Type': 'application/json',
       },
     })
-    .then ((res)=>{
-
-      const jwtToken = res.headers.get('Authorization');
-      console.log('response', res);
-      if (jwtToken != null){
-        localStorage.setItem('jwt', jwtToken);
-        setIsLogin(localStorage.getItem('jwt', jwtToken));
-        navigate("/");
-      }
+    .then (()=>{
+      alert('회원가입이 완료되었습니다.')
+      navigate('/login');
     })
-    .catch((error)=>{
-      console.log(error, "error");
-      window.alert('이메일이나 비밀번호가 바르지 않습니다. 다시 입력해주세요.')
+    .catch(()=>{
+      alert('회원가입이 완료되지 않았습니다.')
     });
   };
 
@@ -56,7 +51,8 @@ const Login = () => {
           </div>
   
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form className="space-y-6" action="#" method="POST">
+            <form className="space-y-6" action="/login" method="POST">
+              
               <div>
                 <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                   아이디
@@ -92,28 +88,22 @@ const Login = () => {
                   />
                 </div>
               </div>
+              
   
               <div>
                 <button
                   type="submit"
-                  onClick={onClickLogin}
+                  onClick={onClickSubmit}
                   className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
                 >
-                  로그인
+                  회원가입
                 </button>
               </div>
             </form>
-  
-            <p className="mt-10 text-center text-sm text-gray-500">
-              회원이 아니라면?{' '}
-              <a href="/join" className="font-semibold leading-6 text-green-600 hover:text-green-500">
-                회원가입하기
-              </a>
-            </p>
           </div>
         </div>
   )
 }
 
-export default Login
+export default Join
 

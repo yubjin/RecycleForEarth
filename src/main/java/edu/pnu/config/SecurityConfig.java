@@ -39,9 +39,9 @@ public class SecurityConfig {
 		http.httpBasic(basic->basic.disable()); // Http Basic인증 방식을 사용하지 않겠다는 설정
 		// 세션을 유지하지 않겠다고 설정 ➔ Url 호출 뒤 응답할 때 까지는 유지되지만 응답 후 삭제된다는 의미.
 		
-		http.exceptionHandling(ex->ex.accessDeniedPage("/users/accessDenied"));
+		http.exceptionHandling(ex->ex.accessDeniedPage("/accessDenied"));
 		
-		http.logout(logout->logout.logoutUrl("/users/logout").invalidateHttpSession(true).logoutSuccessUrl("/"));
+		http.logout(logout->logout.logoutUrl("/logout").invalidateHttpSession(true).logoutSuccessUrl("/"));
 		
 		http.sessionManagement(ssmn->ssmn.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
