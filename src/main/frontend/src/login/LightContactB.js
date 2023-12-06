@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Kakao from "../component/Kakao";
+import axios from "axios";
 
-function LightContactB(props) {
+function LightContactB() {
+  const [centers, setCenters] = useState([]);
+  const [searchCenter, setSearchCenter] = useState("");
+  useEffect(()=>{
+    const getCenter = async() => {
+      try{
+        const response = await axios.get('http://10.125.121.220:3000/main', {
+          params: searchCenter?{add_road: searchCenter} : null
+        });
+        setCenters(centers=>response.data);
+      }catch(e){
+        console.error(e);
+      }
+    }
+    getCenter();
+  }, [searchCenter]);
+  const myInput = useRef();
+  const onButtonClick = e =>{
+    setSearchCenter(myInput.current.value);
+  }
   return (
     <section className="text-gray-600 body-font relative">
       <div className="container px-5 py-24 mx-auto flex sm:flex-nowrap flex-wrap">
@@ -13,53 +33,58 @@ function LightContactB(props) {
           <h2 className="text-gray-900 text-lg mb-1 font-bold title-font ">
             주소 검색하기
           </h2>
-          <p className="leading-relaxed mb-5 text-gray-600">
+          <p className="leading-relaxed mb-1 text-gray-600">
             가까운 재활용센터를 검색합니다.
           </p>
           <div className="relative mb-4">
-            <label
-              htmlFor="name"
-              className="leading-7 text-sm text-gray-600"
-            >
-              Name
-            </label>
             <input
               type="text"
-              id="name"
-              name="name"
+              id="keyword"
+              name="keyword"
+              placeholder="주소를 입력해주세요"
+              ref={myInput}
               className={`w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out`}
             />
           </div>
+          <button type="button" onClick={onButtonClick} className={`text-white mb-8 bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg`}>
+            검색하기
+          </button>
+
           <div className="relative mb-4">
-            <label
-              htmlFor="email"
-              className="leading-7 text-sm text-gray-600"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className={`w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out`}
-            />
-          </div>
-          <div className="relative mb-4">
-            <label
-              htmlFor="message"
-              className="leading-7 text-sm text-gray-600"
-            >
-              Message
-            </label>
             <textarea
               id="message"
               name="message"
               className={`w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out`}
             ></textarea>
           </div>
-          <button className={`text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg`}>
-            검색하기
-          </button>
+          <div className="relative mb-4">
+            <textarea
+              id="message"
+              name="message"
+              className={`w-full bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out`}
+            ></textarea>
+          </div>
+          <table border='1'>
+        <tbody>
+          {centers.length> 0 ? (
+            centers.map((v) => {
+              return (
+                <tr  key={v.id}>
+                  <td>{v.centerNm}</td>
+                  <td>{v.addRoad}</td>
+                  <td>{v.lat}</td>
+                  <td>{v.lng}</td>
+                </tr>
+              );
+            })
+          ) : (
+            <tr>
+              <td>검색결과가 없습니다.</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+
         </div>
       </div>
     </section>
