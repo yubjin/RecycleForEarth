@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Map, MapMarker } from 'react-kakao-maps-sdk';
 
 const{ kakao } = window;
 
@@ -17,7 +18,6 @@ function Kakao() {
         });
         marker.setMap(map);
     }, [])
-
 
     return(
         <div id="map" style={{
