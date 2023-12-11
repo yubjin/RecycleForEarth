@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+body{
+  background-image: url(./assets/imgs/banner.jpg);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 1920px 220px;
+  background-attachment: fixed;
+}
