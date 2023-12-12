@@ -1,24 +1,37 @@
 import React, { useEffect, useState } from "react";
-import Kakao from "../component/Kakao";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import CenterMap from "./CenterMap";
+import { Box, Modal, Typography } from "@mui/material";
+
 
 function CenterDetail() {
-    const {search} = useLocation();
-    const encoded = decodeURI(search).split('=');
-    const center = encoded[1]
-    useEffect(()=>{
-        console.log(center);
-    }, [center]);
+    const {state} =  useLocation();
+    console.log(state.name);
 
     const [centers, setCenters] = useState([]);
+    const [isOpen, setIsOpen] = useState(false);
+
+    const openModal = () => setIsOpen(true);
+    const closeModal = () => setIsOpen(false);
+    const style = {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 600,
+      bgcolor: 'background.paper',
+      border: '2px solid #000',
+      boxShadow: 24,
+      p: 4,
+    };
+
 
     useEffect(()=>{
       const getCenter = async() => {
         try{
           const response = await axios.get('http://10.125.121.220:3000/api/center', {
-            params: center?{name: center}: null
+            params: state.name?{name: state.name}: null
           });
           setCenters(centers=>response.data);
           console.log(centers);
@@ -29,14 +42,13 @@ function CenterDetail() {
       getCenter();
     }, []);
 
+
   return (
     <section className="text-gray-600 body-font relative">
       <div className="container px-5 py-24 mx-auto flex sm:flex-nowrap flex-wrap">
         <div className="lg:w-2/3 md:w-1/2 bg-gray-300 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
-          <div className="z-10">
-          <CenterMap centers={centers}/>
-          </div>
-          <div className="w-full bg-white flex flex-wrap py-6 rounded shadow-md z-50">
+          <CenterMap clat={state.cla} clng={state.cln}/>
+          <div className="w-200 bg-white flex flex-wrap py-6 rounded shadow-md z-50 absolute bottom-10 left-10">
             <div className="lg:w-1/2 px-6">
               
               <h2 className="title-font font-semibold text-gray-900 tracking-widest text-xs">
@@ -54,11 +66,26 @@ function CenterDetail() {
             </div>
             <div className="lg:w-1/2 px-6 mt-4 lg:mt-0">
               
-              <h2 className="title-font font-semibold text-gray-900 tracking-widest text-xs">
+              <h2 className="title-font font-semibold text-gray-900 tracking-widest text-xs mb-2">
                 취급 품목
               </h2>
               <a href className={`text-green-500 leading-relaxed`}>
-                {centers.itemInfo}
+                {(centers.itemInfo || "").split('+').map((item, idx) =>
+                <span key={`sp${idx}`} className="inline-block rounded-full px-3 py-1 text-sm border-green-200 border-2 text-green-800 mr-2 mb-2 hover:bg-green-200">
+                  <button onClick={openModal}>{item}</button>
+                  <Modal
+                    open={isOpen}
+                    onClose={closeModal}>
+                      <Box sx={style}>
+                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                          {centers.itemInfo}
+                        </Typography>
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                          Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                        </Typography>
+                      </Box>
+                  </Modal>
+                </span>)}
               </a>
               <h2 className="title-font font-semibold text-gray-900 tracking-widest text-xs mt-4">
                 전화번호
@@ -67,7 +94,7 @@ function CenterDetail() {
             </div>
           </div>
         </div>
-        <div className="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
+        <div className="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 px-7 mt-8 md:mt-0">
           <h2 className="text-gray-900 text-2xl mb-5 font-bold title-font">
             {centers.centerNm}
           </h2>

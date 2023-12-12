@@ -24,7 +24,7 @@ public class Board {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long seq;
-	private int center_id;
+	private Long center_id;
 	private String content;
 	
 	@Temporal(TemporalType.TIMESTAMP)
