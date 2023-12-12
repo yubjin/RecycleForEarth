@@ -42,8 +42,10 @@ public class CenterService {
 	}
 
 	public Items getTagInfo(String tagName) {
-		return itemsRepo.findByDetails(tagName);
+		return itemsRepo.findByType(tagName);
 	}
+	
+
 
 	public void insertBoard(Board board) {
 		
@@ -61,5 +63,6 @@ public class CenterService {
 		findBoard.setContent(board.getContent());
 		boardRepo.save(findBoard);
 	}
+
 
 }

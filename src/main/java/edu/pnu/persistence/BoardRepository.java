@@ -8,6 +8,6 @@ import edu.pnu.domain.Board;
 
 
 public interface BoardRepository extends JpaRepository<Board, Long>{
-
+	
 	//Page<Board> getBoardList(Pageable pageable);
 }

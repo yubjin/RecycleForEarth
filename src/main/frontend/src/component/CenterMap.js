@@ -14,11 +14,6 @@ const CenterMap = ({clat, clng}) => {
         errMsg: null,
         isLoading: true,
     });
-
-    useEffect(()=>{
-        console.log(myCenter)
-    },[])
-    
     
    /*  useEffect(()=>{
         const geocoder = new kakao.maps.services.Geocoder();

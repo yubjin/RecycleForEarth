@@ -7,12 +7,20 @@ import { Box, Modal, Typography } from "@mui/material";
 
 function CenterDetail() {
     const {state} =  useLocation();
-    console.log(state.name);
-
     const [centers, setCenters] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
+    const [items, setItems] = useState([]);
+    const [details, setDetails] = useState([]);
 
-    const openModal = () => setIsOpen(true);
+    const openModal = (el) => {
+      setIsOpen(true);
+      setItems(el);
+      const getItems = async () => {
+        const {data} = await axios.get(`http://10.125.121.220:3000/api/tag?name=${items}`);
+        return data;
+      }
+      getItems().then(result => setDetails(result));
+    }
     const closeModal = () => setIsOpen(false);
     const style = {
       position: 'absolute',
@@ -21,9 +29,10 @@ function CenterDetail() {
       transform: 'translate(-50%, -50%)',
       width: 600,
       bgcolor: 'background.paper',
-      border: '2px solid #000',
       boxShadow: 24,
       p: 4,
+      borderRadius: '8px',
+      
     };
 
 
@@ -41,6 +50,28 @@ function CenterDetail() {
       }
       getCenter();
     }, []);
+    useEffect(() => {
+      const getItems = async () => {
+        const {data} = await axios.get(`http://10.125.121.220:3000/api/tag?name=${items}`);
+        return data;
+      }
+      getItems().then(result => setDetails(result));
+      console.log(details)
+    }, [])
+/*     useEffect(()=>{
+      const getItem = async() => {
+        try{
+          const response = await axios.get('http://10.125.121.220:3000/api/tag', {
+            params: items?{name: items}: null
+          });
+          setDetails(details=>response.data);
+          console.log(details);
+        }catch(e){
+          console.error(e);
+        }
+      }
+      getItem();
+    }, []); */
 
 
   return (
@@ -71,17 +102,17 @@ function CenterDetail() {
               </h2>
               <a href className={`text-green-500 leading-relaxed`}>
                 {(centers.itemInfo || "").split('+').map((item, idx) =>
-                <span key={`sp${idx}`} className="inline-block rounded-full px-3 py-1 text-sm border-green-200 border-2 text-green-800 mr-2 mb-2 hover:bg-green-200">
-                  <button onClick={openModal}>{item}</button>
+                <span key={idx} className="inline-block rounded-full px-3 py-1 text-sm border-green-200 border-2 text-green-800 mr-2 mb-2 hover:bg-green-200">
+                  <button onClick={()=>openModal(item)}>{item}</button>
                   <Modal
                     open={isOpen}
                     onClose={closeModal}>
                       <Box sx={style}>
                         <Typography id="modal-modal-title" variant="h6" component="h2">
-                          {centers.itemInfo}
+                          {items}
                         </Typography>
                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                          Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                        {details.recycleMethod}
                         </Typography>
                       </Box>
                   </Modal>

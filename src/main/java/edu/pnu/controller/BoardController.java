@@ -21,6 +21,7 @@ public class BoardController {
 	@Autowired
 	private CenterService cs;
 
+
 	
 	@PostMapping("/api/center/board")
 	public void insertBoard(@RequestBody Board board) {

@@ -6,6 +6,6 @@ import edu.pnu.domain.Items;
 
 public interface ItemsRepository extends JpaRepository<Items, Integer> {
 
-	Items findByDetails(String tagName);
+	Items findByType(String tagName);
 
 }
