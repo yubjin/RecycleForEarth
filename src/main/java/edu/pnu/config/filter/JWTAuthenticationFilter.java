@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
 	
 	private final AuthenticationManager authenticationManager;
-
+	//setFilterProcessesUrl("/api/member/login"); //로그인 url 설정하기 코드, 설정하지 않으면 /login으로 자동설정
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {

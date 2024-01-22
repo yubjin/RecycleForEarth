@@ -48,7 +48,7 @@ public class SecurityConfig {
 //				.loginPage("/login")
 //				.defaultSuccessUrl("/main", true));
 		http.formLogin(form->form.disable());
-		//.disable-> Form을 이용한 로그인을 사용하지 않겠다는 설정(disable), 지금은 form로그인 사용하기 때문에 loginPage 설정해줌
+		//.disable-> Form을 이용한 로그인을 사용하지 않겠다는 설정(disable)
 		http.httpBasic(basic->basic.disable()); // Http Basic인증 방식을 사용하지 않겠다는 설정
 		// 세션을 유지하지 않겠다고 설정 ➔ Url 호출 뒤 응답할 때 까지는 유지되지만 응답 후 삭제된다는 의미.
 		
